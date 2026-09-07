@@ -3,6 +3,11 @@ const { Client } = pg;
 const client = new Client({ connectionString: process.env.DATABASE_URL });
 await client.connect();
 try {
+  await client.query(`
+    insert into mawashi_site_content (brand_name, hero_title, hero_text, hero_image_url, nav_links)
+    select $1, $2, $3, $4, $5
+    where not exists (select 1 from mawashi_site_content)
+  `, ["مزرعتي قطر", "من المزرعة إلى بابكم", "منتجات مختارة بعناية تصل إليكم داخل قطر.", "", ["الكل", "الذبائح", "المقطّعات"]]);
   const result = await client.query(`
     insert into mawashi_products (name, description, image_url, max_quantity, price, active)
     select $1, $2, $3, $4, $5, true

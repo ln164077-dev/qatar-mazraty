@@ -200,7 +200,13 @@ function HomePage() {
   usePresence('storefront', 'يتصفح المنتجات');
   if (isLoading) return <Shell><LoadingBlock /></Shell>;
   if (isError || !storefront) return <Shell><ErrorBlock onRetry={() => void refetch()} /></Shell>;
-  const content = storefront.content;
+  const content = storefront.content ?? {
+    brandName: 'مزرعتي قطر',
+    heroTitle: 'من المزرعة إلى بابكم',
+    heroText: 'منتجات مختارة بعناية تصل إليكم داخل قطر.',
+    heroImageUrl: '',
+    navLinks: ['الكل', 'الذبائح', 'المقطّعات'],
+  };
   const hero = content.heroImageUrl || demoHero;
   const navLinks = content.navLinks?.length ? content.navLinks : ['الكل', 'الذبائح', 'المقطّعات'];
   return <Shell><div className="page-enter px-5 pb-20 pt-8 lg:px-10 lg:pt-14">
