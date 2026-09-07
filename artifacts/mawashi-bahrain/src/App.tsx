@@ -87,7 +87,7 @@ const clerkPubKey = publishableKeyFromHost(window.location.hostname, import.meta
 const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
 const demoHero = 'https://images.unsplash.com/photo-1572046750111-2c4f7a38f0b4?auto=format&fit=crop&w=1400&q=85';
 const fallbackSheep = 'https://images.unsplash.com/photo-1484557985045-edf25e08da73?auto=format&fit=crop&w=900&q=82';
-const money = (value: number) => `${value.toFixed(3)} د.ب`;
+const money = (value: number | string) => `${Number(value || 0).toFixed(3)} ر.ق`;
 const today = () => new Date().toISOString().slice(0, 10);
 
 function cn(...classes: Array<string | false | null | undefined>) {
@@ -103,7 +103,7 @@ function BrandMark({ compact = false }: { compact?: boolean }) {
       </div>
       <div className="leading-tight">
         <div className={cn('text-[17px] font-bold tracking-[-.04em]', compact && 'text-[15px]')}>مزرعتي قطر</div>
-        {!compact && <div className="mt-1 font-mono-bahrain text-[8px] uppercase text-muted-foreground" dir="ltr">MAWASHI / BH</div>}
+        {!compact && <div className="mt-1 font-mono-bahrain text-[8px] uppercase text-muted-foreground" dir="ltr">MAZARTY / QA</div>}
       </div>
     </div>
   );
