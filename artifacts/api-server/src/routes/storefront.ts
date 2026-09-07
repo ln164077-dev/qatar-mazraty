@@ -1,4 +1,4 @@
-import { Router, type IRouter } from "express";
+import { Router, type IRouter, type RequestHandler } from "express";
 import { desc, eq } from "drizzle-orm";
 import { CreateOrderBody } from "@workspace/api-zod";
 import { db, productsTable, siteContentTable, ordersTable, presenceTable } from "@workspace/db";
@@ -31,13 +31,16 @@ router.post("/orders", async (req, res, next) => {
   } catch (error) { next(error); return; }
 });
 
-router.put("/presence", async (req, res, next) => {
+const presenceHandler: RequestHandler = async (req, res, next) => {
   try {
     const input = req.body;
     if (!input?.sessionId || !input?.page || !input?.label) { res.status(400).json({ message: "بيانات الحضور غير مكتملة" }); return; }
     const [row] = await db.insert(presenceTable).values({ sessionId: String(input.sessionId), page: String(input.page), label: String(input.label), customerName: input.customerName ? String(input.customerName) : null, lastSeenAt: new Date() }).onConflictDoUpdate({ target: presenceTable.sessionId, set: { page: String(input.page), label: String(input.label), customerName: input.customerName ? String(input.customerName) : null, lastSeenAt: new Date() } }).returning();
     res.json(row);
   } catch (error) { next(error); return; }
-});
+};
+
+router.post("/presence", presenceHandler);
+router.put("/presence", presenceHandler);
 
 export default router;
