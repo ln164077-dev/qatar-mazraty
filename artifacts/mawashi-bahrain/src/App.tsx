@@ -83,7 +83,7 @@ import NotFound from '@/pages/not-found';
 
 const queryClient = new QueryClient();
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-const clerkPubKey = publishableKeyFromHost(window.location.hostname, import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
+const clerkPubKey = import.meta.env.VITE_DISABLE_CLERK === 'true' ? '' : publishableKeyFromHost(window.location.hostname, import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
 const clerkProxyUrl = import.meta.env.VITE_CLERK_PROXY_URL;
 const demoHero = 'https://images.unsplash.com/photo-1572046750111-2c4f7a38f0b4?auto=format&fit=crop&w=1400&q=85';
 const fallbackSheep = 'https://images.unsplash.com/photo-1484557985045-edf25e08da73?auto=format&fit=crop&w=900&q=82';
